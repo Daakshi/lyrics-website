@@ -5,22 +5,24 @@ import ws from "ws";
 
 neonConfig.webSocketConstructor = ws;
 
-const globalForPrisma = globalThis;
-
 // ✅ ONLY use env variable (no fallback)
 const DB_URL = process.env.DATABASE_URL;
 
 if (!DB_URL) {
     throw new Error("DATABASE_URL is not set in environment variables");
 }
+async function main() {
+  const adapter = new PrismaNeon({ connectionString: DB_URL });
+  const prisma = new PrismaClient({ adapter });
 
-function createPrismaClient() {
-    const adapter = new PrismaNeon({ connectionString: DB_URL });
-    return new PrismaClient({ adapter });
+  const admin = await prisma.admin.findFirst();
+  console.log("Admin credentials:", admin);
+
+  await prisma.$disconnect();
 }
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
-
-if (process.env.NODE_ENV !== "production") {
-    globalForPrisma.prisma = prisma;
-}
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  });

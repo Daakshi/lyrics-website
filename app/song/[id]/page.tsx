@@ -4,7 +4,11 @@ import Lyrics from "@/components/Lyrics";
 import Footer from "@/components/Footer";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }) {
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
   const { id } = await params;
   const song = await prisma.song.findUnique({ where: { id } });
   
@@ -23,7 +27,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function SongPage({ params }) {
+export default async function SongPage({ params }: Props) {
   const { id } = await params;
 
   const song = await prisma.song.findUnique({
@@ -36,7 +40,7 @@ export default async function SongPage({ params }) {
 
   return (
     <>
-      <Navbar />
+      <Navbar search="" setSearch={null} />
       <main className="flex-grow py-12">
         <Lyrics song={song} />
       </main>

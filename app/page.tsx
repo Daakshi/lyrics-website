@@ -13,7 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   // Fetch songs from API with search query
-  const fetchSongs = useCallback(async (query) => {
+  const fetchSongs = useCallback(async (query: string) => {
     try {
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
       const data = await res.json();

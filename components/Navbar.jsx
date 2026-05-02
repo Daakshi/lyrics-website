@@ -44,10 +44,10 @@ const Navbar = ({ search, setSearch }) => {
     <>
       <nav className="bg-[#FDF8F1]/80 backdrop-blur-md border-b border-red-900/10 w-full sticky top-0 z-50 transition-all duration-500">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center px-8 lg:h-28">
-          
+
           {/* Logo */}
           <div className="flex w-full lg:w-auto justify-between items-center py-6 lg:py-0">
-            <Link 
+            <Link
               href="/"
               className="relative cursor-pointer select-none"
               ref={logoRef}
@@ -56,19 +56,19 @@ const Navbar = ({ search, setSearch }) => {
             >
               {/* Sharp Logo (hides where mouse is) */}
               <h1
-                className="text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 transition-all duration-75"
+                className="text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 transition-all duration-75 whitespace-nowrap"
                 style={{
                   WebkitMaskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, transparent 0%, black 100%)` : 'none',
                   maskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, transparent 0%, black 100%)` : 'none',
                 }}
               >
-                <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif">V</span>
-                Vibe <span className="text-[#C07A2B]">Krishna</span>
+                <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif shrink-0">V</span>
+                <span>Vibe with <span className="text-[#C07A2B]">Krishna</span></span>
               </h1>
 
               {/* Blurred Logo (appears where mouse is) */}
               <h1
-                className="absolute top-0 left-0 text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 pointer-events-none blur-[4px] transition-all duration-75"
+                className="absolute top-0 left-0 text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 pointer-events-none blur-[4px] transition-all duration-75 whitespace-nowrap"
                 style={{
                   WebkitMaskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, black 0%, transparent 100%)` : 'none',
                   maskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, black 0%, transparent 100%)` : 'none',
@@ -76,8 +76,8 @@ const Navbar = ({ search, setSearch }) => {
                 }}
                 aria-hidden="true"
               >
-                <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif">V</span>
-                Vibe <span className="text-[#C07A2B]">Krishna</span>
+                <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif shrink-0">V</span>
+                <span>Vibe with <span className="text-[#C07A2B]">Krishna</span></span>
               </h1>
             </Link>
 
