@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // DATABASE_URL must NOT be listed here — the `env` block exposes vars to
-  // the browser bundle. Server-only secrets must stay in process.env and be
-  // accessed only inside API routes / Server Components.
+  // Tell Next.js NOT to try to bundle these packages during static analysis.
+  // Prisma, the Neon adapter, and ws are Node.js-only runtime packages —
+  // bundling them causes "Failed to collect page data" on Vercel.
+  serverExternalPackages: [
+    "@prisma/client",
+    "@prisma/adapter-neon",
+    "@neondatabase/serverless",
+    "ws",
+  ],
 };
 
 export default nextConfig;
