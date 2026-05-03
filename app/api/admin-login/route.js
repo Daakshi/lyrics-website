@@ -4,25 +4,40 @@ export async function POST(req) {
   try {
     const { username, password } = await req.json();
 
-    // Fetch the first admin
-    let admin = await prisma.admin.findFirst();
-    
-    // If no admin exists yet, create a default one
+    if (!username || !password) {
+      return Response.json(
+        { success: false, message: "Username and password are required" },
+        { status: 400 }
+      );
+    }
+
+    const admin = await prisma.admin.findFirst({
+      where: { username },
+    });
+
     if (!admin) {
-      admin = await prisma.admin.create({
-        data: {
-          username: "admin",
-          password: "password123",
-        },
-      });
+      // Return the same message for missing user and wrong password
+      // to prevent username enumeration
+      return Response.json(
+        { success: false, message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
-    if (admin.username === username && admin.password === password) {
-      return Response.json({ success: true });
+    // Plain-text comparison (upgrade to bcrypt if you add hashing in future)
+    if (admin.password !== password) {
+      return Response.json(
+        { success: false, message: "Invalid credentials" },
+        { status: 401 }
+      );
     }
 
-    return Response.json({ success: false, message: "Invalid credentials" });
+    return Response.json({ success: true });
   } catch (error) {
-    return Response.json({ success: false, message: error.message }, { status: 500 });
+    console.error("[admin-login] Error:", error);
+    return Response.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
