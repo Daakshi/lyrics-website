@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+export const dynamic = "force-dynamic";
 
 export async function POST(req) {
   try {
@@ -21,7 +22,7 @@ export async function POST(req) {
       const uniqueName = `${Date.now()}-${imageFile.name.replace(/\s+/g, '-')}`;
       const filePath = path.join(uploadDir, uniqueName);
       await writeFile(filePath, buffer);
-      
+
       imageUrl = `/uploads/${uniqueName}`;
     }
 
