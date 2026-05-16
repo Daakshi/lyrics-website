@@ -9,6 +9,7 @@ export async function PUT(req, { params }) {
     const artist = formData.get("artist") || "";
     let imageUrl = formData.get("image") || "";
     const imageFile = formData.get("imageFile");
+    const youtubeUrl = formData.get("youtubeUrl") || "";
 
     // Vercel has a read-only filesystem — store images as base64 data-URLs.
     if (imageFile && typeof imageFile === "object" && imageFile.name) {
@@ -24,6 +25,7 @@ export async function PUT(req, { params }) {
         title: title || "",
         lyrics: lyrics || "",
         artist: artist,
+        youtubeUrl: youtubeUrl,
         // Only update image if a new file or URL was supplied
         ...(imageUrl ? { image: imageUrl } : {}),
       },

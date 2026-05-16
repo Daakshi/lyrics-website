@@ -27,6 +27,8 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
+import Comments from "@/components/Comments";
+
 export default async function SongPage({ params }: Props) {
   const { id } = await params;
 
@@ -43,6 +45,7 @@ export default async function SongPage({ params }: Props) {
       <Navbar search="" setSearch={null} />
       <main className="flex-grow py-12">
         <Lyrics song={song} />
+        <Comments songId={song.id} />
       </main>
       <Footer />
     </>

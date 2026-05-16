@@ -7,6 +7,7 @@ const EditSong = ({ song, close }) => {
   const [lyrics, setLyrics] = useState("");
   const [image, setImage] = useState("");
   const [imageFile, setImageFile] = useState(null);
+  const [youtubeUrl, setYoutubeUrl] = useState("");
 
   // Pre-fill data
   useEffect(() => {
@@ -14,6 +15,7 @@ const EditSong = ({ song, close }) => {
       setTitle(song.title || "");
       setLyrics(song.lyrics || "");
       setImage(song.image || "");
+      setYoutubeUrl(song.youtubeUrl || "");
     }
   }, [song]);
 
@@ -28,6 +30,7 @@ const EditSong = ({ song, close }) => {
     formData.append("title", title);
     formData.append("lyrics", lyrics);
     formData.append("image", image);
+    formData.append("youtubeUrl", youtubeUrl);
     if (imageFile) {
       formData.append("imageFile", imageFile);
     }
@@ -99,6 +102,17 @@ const EditSong = ({ song, close }) => {
                 {imageFile ? `📎 ${imageFile.name}` : "📁 Upload New Image File"}
               </label>
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-[#6B5D5D] text-sm font-bold ml-4">Listening Link (YouTube/Music)</label>
+            <input
+              type="text"
+              placeholder="Paste listening link here..."
+              value={youtubeUrl}
+              onChange={(e) => setYoutubeUrl(e.target.value)}
+              className="w-full bg-white border border-red-300/30 rounded-2xl p-4 text-red-900 font-medium focus:ring-4 focus:ring-amber-500/10 transition-all outline-none"
+            />
           </div>
 
           <div className="flex gap-4 mt-10">

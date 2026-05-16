@@ -20,12 +20,20 @@ export async function POST(req) {
       imageUrl = `data:${mimeType};base64,${base64}`;
     }
 
+    const youtubeUrl = formData.get("youtubeUrl") || "";
+    const slug = (title || "song")
+      .toLowerCase()
+      .replace(/ /g, "-")
+      .replace(/[^\w-]+/g, "") + "-" + Date.now();
+
     const song = await prisma.song.create({
       data: {
         title: title || "",
         lyrics: lyrics || "",
         artist: artist,
         image: imageUrl,
+        youtubeUrl: youtubeUrl,
+        slug: slug,
       },
     });
 

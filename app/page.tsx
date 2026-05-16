@@ -16,6 +16,9 @@ export default function Home() {
   const fetchSongs = useCallback(async (query: string) => {
     try {
       const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+      if (!res.ok) {
+        throw new Error(`Server responded with ${res.status}`);
+      }
       const data = await res.json();
       setSongs(data.songs || []);
     } catch (err) {

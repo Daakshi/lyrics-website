@@ -14,16 +14,37 @@ const Navbar = ({ search, setSearch }) => {
   const [showAddSong, setShowAddSong] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
 
-  const [logoMousePos, setLogoMousePos] = useState({ x: -1000, y: -1000 });
-  const logoRef = useRef(null);
+  const logoContainerRef = useRef(null);
+  const logoTextRef1 = useRef(null);
+  const logoTextRef2 = useRef(null);
 
   const handleLogoMouseMove = (e) => {
-    if (logoRef.current) {
-      const rect = logoRef.current.getBoundingClientRect();
-      setLogoMousePos({
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
-      });
+    if (window.innerWidth < 1024) return;
+    if (logoContainerRef.current && logoTextRef1.current && logoTextRef2.current) {
+      const rect = logoContainerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const mask1 = `radial-gradient(circle 80px at ${x}px ${y}px, transparent 0%, black 100%)`;
+      const mask2 = `radial-gradient(circle 80px at ${x}px ${y}px, black 0%, transparent 100%)`;
+      
+      logoTextRef1.current.style.WebkitMaskImage = mask1;
+      logoTextRef1.current.style.maskImage = mask1;
+      
+      logoTextRef2.current.style.WebkitMaskImage = mask2;
+      logoTextRef2.current.style.maskImage = mask2;
+      logoTextRef2.current.style.opacity = 1;
+    }
+  };
+
+  const handleLogoMouseLeave = () => {
+    if (logoTextRef1.current && logoTextRef2.current) {
+      logoTextRef1.current.style.WebkitMaskImage = 'none';
+      logoTextRef1.current.style.maskImage = 'none';
+      
+      logoTextRef2.current.style.WebkitMaskImage = 'none';
+      logoTextRef2.current.style.maskImage = 'none';
+      logoTextRef2.current.style.opacity = 0;
     }
   };
 
@@ -50,17 +71,14 @@ const Navbar = ({ search, setSearch }) => {
             <Link
               href="/"
               className="relative cursor-pointer select-none"
-              ref={logoRef}
+              ref={logoContainerRef}
               onMouseMove={handleLogoMouseMove}
-              onMouseLeave={() => setLogoMousePos({ x: -1000, y: -1000 })}
+              onMouseLeave={handleLogoMouseLeave}
             >
               {/* Sharp Logo (hides where mouse is) */}
               <h1
+                ref={logoTextRef1}
                 className="text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 transition-all duration-75 whitespace-nowrap"
-                style={{
-                  WebkitMaskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, transparent 0%, black 100%)` : 'none',
-                  maskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, transparent 0%, black 100%)` : 'none',
-                }}
               >
                 <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif shrink-0">V</span>
                 <span>Vibe with <span className="text-[#C07A2B]">Krishna</span></span>
@@ -68,12 +86,8 @@ const Navbar = ({ search, setSearch }) => {
 
               {/* Blurred Logo (appears where mouse is) */}
               <h1
-                className="absolute top-0 left-0 text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 pointer-events-none blur-[4px] transition-all duration-75 whitespace-nowrap"
-                style={{
-                  WebkitMaskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, black 0%, transparent 100%)` : 'none',
-                  maskImage: logoMousePos.x !== -1000 ? `radial-gradient(circle 80px at ${logoMousePos.x}px ${logoMousePos.y}px, black 0%, transparent 100%)` : 'none',
-                  opacity: logoMousePos.x === -1000 ? 0 : 1
-                }}
+                ref={logoTextRef2}
+                className="absolute top-0 left-0 text-4xl font-serif font-bold tracking-tight text-[#5D1E1E] flex items-center gap-3 pointer-events-none blur-[4px] transition-all duration-75 whitespace-nowrap opacity-0"
                 aria-hidden="true"
               >
                 <span className="w-10 h-10 bg-red-900 rounded-lg flex items-center justify-center text-white text-2xl font-serif shrink-0">V</span>

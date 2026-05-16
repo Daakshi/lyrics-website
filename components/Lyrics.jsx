@@ -56,20 +56,48 @@ const Lyrics = ({ song }) => {
             )}
             <div className="h-1 w-24 bg-amber-500 rounded-full mb-10"></div>
             
-            <div className="flex flex-wrap gap-4 mb-12">
+            <div className="flex flex-wrap gap-4 mb-12 items-center">
               <button
                 onClick={copyLyrics}
                 className="bg-red-900 text-white font-bold py-4 px-10 rounded-2xl shadow-lg shadow-red-900/20 hover:bg-red-800 transition-all flex items-center gap-3"
               >
                 {copied ? "✓ Copied!" : "Copy Lyrics"}
               </button>
+
+              {song.youtubeUrl && (
+                <div className="flex items-center gap-2 text-[#5D1E1E] font-serif font-bold">
+                  <span>To listen:</span>
+                  <a 
+                    href={song.youtubeUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#C07A2B] hover:underline"
+                  >
+                    Click Here
+                  </a>
+                </div>
+              )}
             </div>
 
-            <div className="bg-[#FDF8F1] border border-red-900/5 rounded-[2rem] p-6 md:p-12 shadow-inner">
+            <div className="bg-[#FDF8F1] border border-red-900/5 rounded-[2rem] p-6 md:p-12 shadow-inner mb-8">
                <pre className="whitespace-pre-wrap font-serif text-xl md:text-2xl leading-relaxed text-[#2D1A1A]">
                   {song.lyrics}
                </pre>
             </div>
+
+            {song.youtubeUrl && (
+              <div className="flex items-center gap-2 text-[#5D1E1E] font-serif font-bold text-lg md:text-xl">
+                <span>To listen:</span>
+                <a 
+                  href={song.youtubeUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-[#C07A2B] hover:underline flex items-center gap-1"
+                >
+                  Click Here <span className="group-hover:translate-x-1 transition-transform">→</span>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
